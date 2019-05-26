@@ -1,80 +1,60 @@
 #include <iostream>
 #include <list>
 #include <algorithm>
+#include <iomanip>
+#include <cmath>
 using namespace std;
-
-std::list<long> filllist(std::list<long> list, long number, long candidate)
-{
-
-  long original = candidate;
-  while(candidate <= number){
-    list.push_back(candidate);
-    candidate += original;
-
-  }
-  cout << original << endl;
-  return list;
-
-}
-
-long findnextprime(std::list<long> nonprimes, std::list<long> primes, long candidate){
-
-  bool found = false;
-  while(found != true)
-    {
-      candidate++;
-      
-      if(std::find(nonprimes.begin(), nonprimes.end(), candidate) == nonprimes.end())
-	{
-
-	  found = true;
-        
-	}
-
-    }
-
-    
-  return candidate;
-}
 
 int main()
 {
+  
+  
+  double largestcandidate = 0;
+  
+  double number = 600851475143;
+  
+  //float number = 13195;
+  bool viable = false;
 
-  std::list<long> nonprimes = {};
-  std::list<long> primes = {};
-  long largestcandidate = 0;
-  
-  long number = 600851475143;
+  double i = 2;
 
-  //long number = 13195;
-  
-  long candidate = 2;
-  
-  
-  while(candidate < number){
+  do{
+
     
-    nonprimes = filllist(nonprimes , number,  candidate);
-    nonprimes.sort();
-    nonprimes.unique();
-    
-    if(candidate * candidate > number)
-      {
 
-	for(auto it = primes.rbegin(); it != primes.rend(); it++){ 
+    long double temp = number/i;
 
-	  if(number % *it == 0){
-	    largestcandidate = *it;
-	    break;
-	  }
+    if(floor(temp) == temp){
+      long long  temp2 = floor(temp);
+      viable = true;
+      for(long long x = 2; x < temp2 && viable; x++)
+	{
+
+	  //cout << x << endl;
+	  if(temp2 % x == 0)
+	    {    
+	    
+	      viable = false;
+	      
+	    }
+	
 	}
 
-	break;
+      if(viable){
+	largestcandidate = temp;
       }
-    
-    candidate = findnextprime(nonprimes, primes, candidate);
-    primes.push_back(candidate);
-    
-  }
+
+    }
+    if(i > number)
+      {
+	viable = true;
+      }
+    else{
+      i++;
+    }
+  }while(viable == false);
+
+  
 
 
   cout << largestcandidate << endl;
